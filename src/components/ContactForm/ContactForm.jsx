@@ -19,7 +19,7 @@ export const ContactForm = () => {
     const newContact = {
       id: nanoid(),
       name: form.name.value,
-      phone: form.number.value,
+      number: form.number.value,
     };
 
     let isContact;
@@ -29,7 +29,7 @@ export const ContactForm = () => {
       if (newContact.name.toLowerCase() === contact.name.toLowerCase()) {
         isContact = true;
       }
-      if (newContact.number.toLowerCase() === contact.number.toLowerCase()) {
+      if (newContact.number.toLowerCase() === contact.phone.toLowerCase()) {
         isNumber = true;
        }
     });
