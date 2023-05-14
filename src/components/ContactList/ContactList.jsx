@@ -2,36 +2,25 @@ import React from 'react';
 import css from './ContactList.module.css';
 import Contact from 'components/Contact/Contact';
 import { useSelector } from 'react-redux';
-import { getFilter, getContacts } from 'redux/Selectors';
-
-const filteredItems = (contacts, filter) => {
-  if (filter === '') return contacts;
-  const array = contacts.filter(contact => {
-    const filtered = filter.toLowerCase();
-    return contact.name.toLowerCase().includes(filtered);
-  });
-  return array;
-};
+import { selectIsLoading, selectVisibleItems} from 'redux/Selectors';
+import Loader from 'components/Loader/Loader';
 
 const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
-  const visibleContacts = filteredItems(contacts, filter);
+  const isLoading = useSelector(selectIsLoading);
+  const visibleContacts = useSelector(selectVisibleItems);
 
-    return (
-        <ul className={css.list}>
-            {visibleContacts?.map(contact => (
-                <li className={css.item} key={contact.id}>
-                  <Contact contact={contact} />
-                </li>
-            ))}
-        </ul>
+  return (
+    <div>
+      <ul className={css.list}>
+        { !!isLoading && <Loader />}
+            {!!visibleContacts && visibleContacts.map(contact => (
+              <li className={css.item} key={contact.id}>
+                <Contact contact={contact} />
+              </li>
+          ))}
+      </ul>
+      </div>
     );
 };
-
-// ContactList.propTypes = {
-//     // onDelete: PropTypes.func.isRequired,
-//     filterContacts: PropTypes.func,
-// };
 
 export default ContactList;
